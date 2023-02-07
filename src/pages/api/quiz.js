@@ -9,27 +9,23 @@ export default async function handler(req, res) {
 	switch (method) {
 		case "GET":
 			try {
-				const userId = req.query.userId;
-				if (userId) {
-					const quizzes = await Quiz.find({ owner: userId });
-					res.status(200).json({ success: true, data: quizzes });
-				} else if (req.query.id) {
-					const id = req.query.id;
-					const quizzes = await Quiz.find({ _id: id });
-					res.status(200).json({ success: true, data: quizzes });
+				const quizId = req.body.id;
+				if (quizId) {
+					const quizzes = await Quiz.find({ _id: quizId });
+					res.status(200).json({ data: quizzes });
 				} else {
-					res.status(400).json({ success: false });
+					res.status(500).json({ error: "Missing ID" });
 				}
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "POST":
 			try {
 				const quiz = await Quiz.create(body);
-				res.status(201).json({ success: true, data: quiz });
+				res.status(200).json({ data: quiz });
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "PUT":
@@ -40,22 +36,22 @@ export default async function handler(req, res) {
 				await Quiz.findOneAndUpdate({ _id: quizId }, update);
 
 				const updatedQuiz = await Quiz.find({ _id: quizId });
-				res.status(201).json({ success: true, data: updatedQuiz });
+				res.status(200).json({ data: updatedQuiz });
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "DELETE":
 			try {
 				const quizId = req.body.id;
 				await Quiz.findOneAndDelete({ _id: quizId });
-				res.status(201).json({ success: true });
+				res.status(200);
 				return;
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 		default:
-			res.status(400).json({ success: false });
+			res.status(500).json({ error: "Failed to fetch data" });
 			break;
 	}
 }

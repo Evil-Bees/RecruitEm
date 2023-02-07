@@ -9,27 +9,25 @@ export default async function handler(req, res) {
 	switch (method) {
 		case "GET":
 			try {
-				const userId = req.query.userId;
-				if (userId) {
-					const questionnaires = await Questionnaire.find({ owner: userId });
-					res.status(200).json({ success: true, data: questionnaires });
-				} else if (req.query.id) {
-					const id = req.query.id;
-					const questionnaires = await Questionnaire.find({ _id: id });
-					res.status(200).json({ success: true, data: questionnaires });
+				const questionnaireId = req.query.questionnaireId;
+				if (questionnaireId) {
+					const questionnaires = await Questionnaire.find({
+						_id: questionnaireId,
+					});
+					res.status(200).json({ data: questionnaires });
 				} else {
-					res.status(400).json({ success: false });
+					res.status(500).json({ error: "Failed to fetch data" });
 				}
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "POST":
 			try {
 				const questionnaire = await Questionnaire.create(body);
-				res.status(201).json({ success: true, data: questionnaire });
+				res.status(200).json({ data: questionnaire });
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "PUT":
@@ -39,23 +37,25 @@ export default async function handler(req, res) {
 
 				await Questionnaire.findOneAndUpdate({ _id: questionnaireId }, update);
 
-				const updatedQuestionnaire = await Questionnaire.find({ _id: questionnaireId });
-				res.status(201).json({ success: true, data: updatedQuestionnaire });
+				const updatedQuestionnaire = await Questionnaire.find({
+					_id: questionnaireId,
+				});
+				res.status(200).json({ data: updatedQuestionnaire });
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 			break;
 		case "DELETE":
 			try {
 				const questionnaireId = req.body.id;
 				await Questionnaire.findOneAndDelete({ _id: questionnaireId });
-				res.status(201).json({ success: true });
+				res.status(200);
 				return;
 			} catch (error) {
-				res.status(400).json({ success: false });
+				res.status(500).json({ error });
 			}
 		default:
-			res.status(400).json({ success: false });
+			res.status(500).json({ error: "Failed to fetch data" });
 			break;
 	}
 }
