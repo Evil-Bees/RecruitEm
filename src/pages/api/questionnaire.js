@@ -9,10 +9,10 @@ export default async function handler(req, res) {
 	switch (method) {
 		case "GET":
 			try {
-				const questionnaireId = req.query.questionnaireId;
-				if (questionnaireId) {
+				const id = req.query.id;
+				if (id) {
 					const questionnaires = await Questionnaire.find({
-						_id: questionnaireId,
+						_id: id,
 					});
 					res.status(200).json({ data: questionnaires });
 				} else {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 			break;
 		case "POST":
 			try {
-				const questionnaire = await Questionnaire.create(body);
+				const questionnaire = await Questionnaire.create(req.body);
 				res.status(200).json({ data: questionnaire });
 			} catch (error) {
 				res.status(500).json({ error });

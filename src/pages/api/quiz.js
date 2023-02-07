@@ -9,9 +9,9 @@ export default async function handler(req, res) {
 	switch (method) {
 		case "GET":
 			try {
-				const quizId = req.body.id;
-				if (quizId) {
-					const quizzes = await Quiz.find({ _id: quizId });
+				const id = req.query.id;
+				if (id) {
+					const quizzes = await Quiz.find({ _id: id });
 					res.status(200).json({ data: quizzes });
 				} else {
 					res.status(500).json({ error: "Missing ID" });
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 			break;
 		case "POST":
 			try {
-				const quiz = await Quiz.create(body);
+				const quiz = await Quiz.create(req.body);
 				res.status(200).json({ data: quiz });
 			} catch (error) {
 				res.status(500).json({ error });
