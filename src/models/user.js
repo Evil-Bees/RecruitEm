@@ -33,8 +33,8 @@ const UserSchema = new mongoose.Schema(
 			ref: "Position",
 		},
 		CV: {
-			type: String
-		}
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );

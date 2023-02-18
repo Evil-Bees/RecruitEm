@@ -2,10 +2,20 @@ const mongoose = require("mongoose");
 
 const QuizSchema = new mongoose.Schema(
 	{
-		name: String,
-		duration: Number,
-		description: String,
-		questions: [{ question: String, answerType: String, Optional: String }],
+		name: {
+			type: String,
+		},
+		duration: {
+			type: Number,
+		},
+		description: {
+			type: String,
+		},
+		questions: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Question",
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );

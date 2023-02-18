@@ -2,10 +2,37 @@ const mongoose = require("mongoose");
 
 const PositionSchema = new mongoose.Schema(
 	{
-		name: String,
-		description: String,
-		status: String,
-		quiz: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz" },
+		name: {
+			type: String,
+			required: true,
+		},
+		description: {
+			type: String,
+			required: true,
+		},
+		status: [
+			{
+				Open: [
+					{
+						type: String,
+						required: true,
+					},
+				],
+				Closed: [
+					{
+						type: String,
+						required: true,
+					},
+				],
+			},
+		],
+		quiz: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Quiz",
+				required: true,
+			},
+		],
 	},
 	{ timestamps: true }
 );
