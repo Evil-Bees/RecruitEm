@@ -5,9 +5,7 @@ const QuizSchema = new mongoose.Schema(
 		name: String,
 		duration: Number,
 		description: String,
-		questions: [
-			{ question: String, answerType: String, Optional: String },
-		],
+		questions: [{ question: String, answerType: String, Optional: String }],
 	},
 	{ timestamps: true }
 );
