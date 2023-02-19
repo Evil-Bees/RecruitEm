@@ -1,5 +1,6 @@
 import database from "@/helper/database";
 import Quiz from "@/models/quiz";
+import Question from "@/models/question";
 
 export default async function handler(req, res) {
 	const { method } = req;
@@ -23,6 +24,7 @@ export default async function handler(req, res) {
 			break;
 		case "POST":
 			try {
+				//add Question model handler before saving Quiz
 				const quiz = await Quiz.create(req.body);
 				res.status(200).json({ data: quiz });
 			} catch (error) {
