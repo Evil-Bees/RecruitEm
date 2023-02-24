@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema(
 		role: {
 			type: String,
 			require: [true, "Select user role."],
+			default: "candidate"
 		},
 		position: {
 			type: mongoose.Schema.Types.ObjectId,
