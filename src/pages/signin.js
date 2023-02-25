@@ -1,6 +1,6 @@
-import Link from "next/link";
+import { getCsrfToken, getSession } from "next-auth/react";
 
-export default function Login({ csrfToken }) {
+export default function SignIn({ csrfToken }) {
 	return (
 		<form method="post" action="/api/auth/callback/credentials">
 			<input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -27,13 +27,29 @@ export default function Login({ csrfToken }) {
 					minLength="4"
 				/>
 			</label>
-			<button type="submit">Sign in</button>
-			<p>
-				Don&#39;t have an account yet?
-				<Link href="/register">
-					<span className="ml-2">Sign up.</span>
-				</Link>
-			</p>
+
+			<div>
+				<button type="submit" href="/">
+					Sign in
+				</button>
+			</div>
 		</form>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const { req } = context;
+	const session = await getSession({ req });
+
+	if (session) {
+		return {
+			redirect: { destination: "/" + session._doc.role },
+		};
+	}
+
+	return {
+		props: {
+			csrfToken: await getCsrfToken(context),
+		},
+	};
 }
