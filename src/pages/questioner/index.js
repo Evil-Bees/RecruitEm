@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSession } from "next-auth/react";
 
 export default function Questioner(props) {
 	return (
@@ -21,7 +22,9 @@ export default function Questioner(props) {
 	);
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+	const session = await getSession(context);
+
 	const quizzes = await fetch(process.env.SITE_URI + "/api/quiz", {
 		method: "GET",
 		redirect: "follow",
