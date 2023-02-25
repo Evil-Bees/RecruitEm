@@ -11,11 +11,13 @@ const QuizSchema = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		questions: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Question",
-			required: true,
-		},
+		questions: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Question",
+				required: true,
+			},
+		],
 	},
 	{ timestamps: true }
 );
