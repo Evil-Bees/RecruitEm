@@ -10,6 +10,12 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				"inter-light": ["Inter-ExtraLight"],
+				"inter-regular": ["Inter-Regular"],
+				"inter-semibold": ["Inter-SemiBold"],
+				"inter-black": ["Inter-Black"],
+			},
 			colors: {
 				"recruit-blue": "#1c1a4d",
 			},
