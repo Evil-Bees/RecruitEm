@@ -7,7 +7,7 @@ export default function Home() {
 				<Link href="/candidate">Candidate</Link>
 			</div>
 			<div>
-				<Link href="/questioner">Questioner</Link>
+				<Link href="/recruiter">Recruiter</Link>
 			</div>
 		</>
 	);
