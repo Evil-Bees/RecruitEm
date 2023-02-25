@@ -8,16 +8,7 @@ const QuestionSchema = new mongoose.Schema(
 		type: {
 			text: {
 				type: String,
-			},
-			code: {
-				type: String,
-			},
-			radio: {
-				type: String,
-			},
-			select: {
-				type: String,
-			},
+			}
 		},
 	},
 	{ timestamps: true }

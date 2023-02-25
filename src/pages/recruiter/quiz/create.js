@@ -6,10 +6,73 @@ export default function CreateQuiz() {
 		question1: "",
 	};
 
-	const submitForm = e => {
+	const submitForm = async e => {
 		e.preventDefault();
+		const SITE_URI = process.env.SITE_URI;
+		const name = e.target.name.value;
+		const duration = e.target.duration.value;
+		const description = e.target.description.value;
 
-		console.log(e.target);
+		let questionArray = [];
+
+		const requests = Object.keys(values).map(async key => {
+			const questionId = await saveQuestion(values[key]);
+			questionArray.push(questionId);
+		});
+
+		Promise.all(requests).then(() => {
+			var myHeaders = new Headers();
+			myHeaders.append("Content-Type", "application/json");
+
+			var raw = JSON.stringify({
+				name,
+				duration,
+				description,
+				questions: questionArray,
+			});
+
+			console.log(raw);
+
+			var requestOptions = {
+				method: "POST",
+				headers: myHeaders,
+				body: raw,
+				redirect: "follow",
+			};
+
+			fetch(SITE_URI + "/api/quiz", requestOptions)
+				.then(response => response.json())
+				.then(result => console.log(result))
+				.catch(error => console.log("error", error));
+		});
+	};
+
+	const saveQuestion = async question => {
+		const SITE_URI = process.env.SITE_URI;
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify({
+			question: question,
+			type: "text",
+		});
+
+		var requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow",
+		};
+
+		const questionId = await fetch(SITE_URI + "/api/question", requestOptions)
+			.then(response => response.json())
+			.then(responseJson => {
+				console.log(responseJson);
+				return responseJson.data._id;
+			})
+			.catch(error => console.log("error", error));
+
+		return questionId;
 	};
 
 	const [values, setValues] = useState(initialInputValues);
@@ -39,15 +102,17 @@ export default function CreateQuiz() {
 				<button type="button" onClick={() => setQuestionNum(prev => prev + 1)}>
 					Add Question
 				</button>
-				{Array.from({ length: questionNum }, (_, i, ind = i + 1) => (
-					<FormGroup
-						key={i}
-						label={`Question ${ind}`}
-						name={`question${ind}`}
-						value={values[`question${ind}`] || ""}
-						onChange={handleInputChange}
-					/>
-				))}
+				<div id="questionList">
+					{Array.from({ length: questionNum }, (_, i, ind = i + 1) => (
+						<FormGroup
+							key={i}
+							label={`Question ${ind}`}
+							name={`question${ind}`}
+							value={values[`question${ind}`] || ""}
+							onChange={handleInputChange}
+						/>
+					))}
+				</div>
 				<button type="submit">Save</button>
 			</form>
 		</>
