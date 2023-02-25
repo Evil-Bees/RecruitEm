@@ -5,22 +5,11 @@ const QuestionSchema = new mongoose.Schema(
 		question: {
 			type: String,
 		},
-		type: [
-			{
-				text: {
-					type: String,
-				},
-				code: {
-					type: String,
-				},
-				radio: {
-					type: String,
-				},
-				select: {
-					type: String,
-				},
-			},
-		],
+		type: {
+			text: {
+				type: String,
+			}
+		},
 	},
 	{ timestamps: true }
 );

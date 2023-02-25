@@ -1,5 +1,5 @@
 import database from "@/helper/database";
-import Quiz from "@/models/quiz";
+import Question from "@/models/question";
 
 export default async function handler(req, res) {
 	const { method } = req;
@@ -11,11 +11,11 @@ export default async function handler(req, res) {
 			try {
 				const id = req.query.id;
 				if (id) {
-					const quizzes = await Quiz.find({ _id: id });
-					res.status(200).json({ data: quizzes });
+					const questiones = await Question.find({ _id: id });
+					res.status(200).json({ data: questiones });
 				} else {
-					const quizzes = await Quiz.find();
-					res.status(200).json({ data: quizzes });
+					const questiones = await Question.find();
+					res.status(200).json({ data: questiones });
 				}
 			} catch (error) {
 				res.status(500).json({ error });
@@ -23,8 +23,8 @@ export default async function handler(req, res) {
 			break;
 		case "POST":
 			try {
-				const quiz = await Quiz.create(req.body);
-				res.status(200).json({ data: quiz });
+				const question = await Question.create(req.body);
+				res.status(200).json({ data: question });
 			} catch (error) {
 				res.status(500).json({ error });
 			}
@@ -32,20 +32,20 @@ export default async function handler(req, res) {
 		case "PUT":
 			try {
 				const update = req.body.update;
-				const quizId = req.body.id;
+				const questionId = req.body.id;
 
-				await Quiz.findOneAndUpdate({ _id: quizId }, update);
+				await Question.findOneAndUpdate({ _id: questionId }, update);
 
-				const updatedQuiz = await Quiz.find({ _id: quizId });
-				res.status(200).json({ data: updatedQuiz });
+				const updatedQuestion = await Question.find({ _id: questionId });
+				res.status(200).json({ data: updatedQuestion });
 			} catch (error) {
 				res.status(500).json({ error });
 			}
 			break;
 		case "DELETE":
 			try {
-				const quizId = req.body.id;
-				await Quiz.findOneAndDelete({ _id: quizId });
+				const questionId = req.body.id;
+				await Question.findOneAndDelete({ _id: questionId });
 				res.status(200);
 				return;
 			} catch (error) {
