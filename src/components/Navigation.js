@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { VscAccount, VscActivateBreakpoints } from "react-icons/vsc";
 
-import logo from "../../public/images/recruitem-logo.png";
+import logo from "public/images/recruitem-logo.png";
 
 export default function Home() {
 	return (
