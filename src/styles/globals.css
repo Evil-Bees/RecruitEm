@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./typography.css";
+
+body {
+	font-family: "Inter-Regular";
+}
+
+h1,
+h2 {
+	font-family: "Inter-Black";
+}
+
+h3,
+h4 {
+	font-family: "Inter-SemiBold";
+}
+
+a {
+	font-family: "Inter-Light";
+}
