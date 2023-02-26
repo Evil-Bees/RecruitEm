@@ -20,11 +20,17 @@ export default function Home() {
 
 				<nav>
 					<ul className="flex gap-8">
-						<Link href="/recruiter" className="flex items-center gap-2">
+						<Link
+							href="/recruiter"
+							className="flex items-center gap-2 hover:border-b-[1px]"
+						>
 							<VscActivateBreakpoints />
 							Recruiter
 						</Link>
-						<Link href="/candidate" className="flex items-center gap-2">
+						<Link
+							href="/candidate"
+							className="flex items-center gap-2 hover:border-b-[1px]"
+						>
 							<VscAccount />
 							Candidate
 						</Link>
