@@ -15,36 +15,40 @@ export default function CreateQuiz() {
 
 		let questionArray = [];
 
-		const requests = Object.keys(values).map(async key => {
-			const questionId = await saveQuestion(values[key]);
-			questionArray.push(questionId);
-		});
-
-		Promise.all(requests).then(() => {
-			var myHeaders = new Headers();
-			myHeaders.append("Content-Type", "application/json");
-
-			var raw = JSON.stringify({
-				name,
-				duration,
-				description,
-				questions: questionArray,
+		if (name && duration && description) {
+			const requests = Object.keys(values).map(async key => {
+				const questionId = await saveQuestion(values[key]);
+				questionArray.push(questionId);
 			});
 
-			console.log(raw);
+			Promise.all(requests).then(() => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
 
-			var requestOptions = {
-				method: "POST",
-				headers: myHeaders,
-				body: raw,
-				redirect: "follow",
-			};
+				var raw = JSON.stringify({
+					name,
+					duration,
+					description,
+					questions: questionArray,
+				});
 
-			fetch(SITE_URI + "/api/quiz", requestOptions)
-				.then(response => response.json())
-				.then(result => console.log(result))
-				.catch(error => console.log("error", error));
-		});
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow",
+				};
+
+				fetch(SITE_URI + "/api/quiz", requestOptions)
+					.then(response => response.json())
+					.then(result => {
+						if (result.data._id) {
+							console.log("New Quiz Created");
+						}
+					})
+					.catch(error => console.log("error", error));
+			});
+		}
 	};
 
 	const saveQuestion = async question => {
@@ -67,7 +71,6 @@ export default function CreateQuiz() {
 		const questionId = await fetch(SITE_URI + "/api/question", requestOptions)
 			.then(response => response.json())
 			.then(responseJson => {
-				console.log(responseJson);
 				return responseJson.data._id;
 			})
 			.catch(error => console.log("error", error));
@@ -89,15 +92,20 @@ export default function CreateQuiz() {
 			<form method="POST" onSubmit={submitForm}>
 				<div>
 					<label htmlFor="name">Name</label>
-					<input type="text" name="name" id="name"></input>
+					<input required type="text" name="name" id="name"></input>
 				</div>
 				<div>
 					<label htmlFor="duration">Duration</label>
-					<input type="number" name="duration" id="duration"></input>
+					<input required type="number" name="duration" id="duration"></input>
 				</div>
 				<div>
 					<label htmlFor="description">Description</label>
-					<textarea type="text" name="description" id="description"></textarea>
+					<textarea
+						required
+						type="text"
+						name="description"
+						id="description"
+					></textarea>
 				</div>
 				<button type="button" onClick={() => setQuestionNum(prev => prev + 1)}>
 					Add Question
