@@ -19,6 +19,7 @@ export default function FormGroup(props, { innerRef }) {
 			<div>
 				<label htmlFor={id}>{label}</label>
 				<input
+					required
 					id={id}
 					name={name}
 					type={type}
