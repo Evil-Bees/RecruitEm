@@ -8,7 +8,31 @@ const updateQuiz = async e => {
 	const duration = e.target.duration.value;
 	const description = e.target.description.value;
 
-	console.log(id,name, duration, description);
+	let myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+
+	let raw = JSON.stringify({
+		id,
+		update: {
+			name,
+			duration,
+			description,
+		},
+	});
+
+	let requestOptions = {
+		method: "PUT",
+		headers: myHeaders,
+		body: raw,
+		redirect: "follow",
+	};
+
+	fetch(process.env.SITE_URI + "/api/quiz", requestOptions)
+		.then(response => response.text())
+		.then(result => console.log(result))
+		.catch(error => console.log("error", error));
+
+	console.log(id, name, duration, description);
 };
 
 const updateQuestion = async e => {
@@ -17,14 +41,34 @@ const updateQuestion = async e => {
 	const id = e.target.id.value;
 	const question = e.target.question.value;
 
-	console.log(id, question);
+	let myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+
+	let raw = JSON.stringify({
+		id,
+		update: {
+			question,
+		},
+	});
+
+	let requestOptions = {
+		method: "PUT",
+		headers: myHeaders,
+		body: raw,
+		redirect: "follow",
+	};
+
+	fetch(process.env.SITE_URI + "/api/question", requestOptions)
+		.then(response => response.text())
+		.then(result => console.log(result))
+		.catch(error => console.log("error", error));
 };
 
 const getQuestion = async id => {
-	var myHeaders = new Headers();
+	let myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	var requestOptions = {
+	let requestOptions = {
 		method: "GET",
 		headers: myHeaders,
 		redirect: "follow",
@@ -104,7 +148,7 @@ export async function getServerSideProps(context) {
 			};
 		}
 
-		var requestOptions = {
+		let requestOptions = {
 			method: "GET",
 			redirect: "follow",
 		};
