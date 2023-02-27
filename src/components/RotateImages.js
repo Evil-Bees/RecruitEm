@@ -1,14 +1,8 @@
 import Image from "next/image";
 
-function RotateImages({
-	rotateAngle,
-	imageOne,
-	imageTwo,
-	imageThree,
-	imageFour,
-}) {
+function RotateImages({ imageOne, imageTwo, imageThree, imageFour }) {
 	return (
-		<div className={`rotate-${rotateAngle} mr-2`}>
+		<div className="rotate-24 mr-2">
 			<Image src={imageOne} alt="placeholder image" />
 			<Image src={imageTwo} alt="placeholder image" />
 			<Image src={imageThree} alt="placeholder image" />
