@@ -1,6 +1,25 @@
 import { getSession } from "next-auth/react";
 
-const submitForm = async e => {};
+const updateQuiz = async e => {
+	e.preventDefault();
+
+	const id = e.target.id.value;
+	const name = e.target.name.value;
+	const duration = e.target.duration.value;
+	const description = e.target.description.value;
+
+	console.log(id,name, duration, description);
+};
+
+const updateQuestion = async e => {
+	e.preventDefault();
+
+	const id = e.target.id.value;
+	const question = e.target.question.value;
+
+	console.log(id, question);
+};
+
 const getQuestion = async id => {
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
@@ -23,29 +42,48 @@ const getQuestion = async id => {
 export default function EditQuiz(props) {
 	return (
 		<>
-			<form method="POST" onSubmit={submitForm}>
-				<input type="text" name="name" defaultValue={props.name}></input>
-				<input
-					type="number"
-					name="duration"
-					defaultValue={props.duration}
-				></input>
-				<textarea
-					type="text"
-					name="description"
-					defaultValue={props.description}
-				></textarea>
+			<form method="POST" onSubmit={updateQuiz}>
+				<input type="hidden" name="id" defaultValue={props.quizId}></input>
+				<div>
+					<input type="text" name="name" defaultValue={props.name}></input>
+				</div>
 
 				<div>
-					{props.questions.length > 0 &&
-						props.questions.map(question => (
-							<div key={question[0]._id}>
-								<div>{question[0]._id}</div>
-								<div>{question[0].question}</div>
-							</div>
-						))}
+					<input
+						type="number"
+						name="duration"
+						defaultValue={props.duration}
+					></input>
 				</div>
+				<div>
+					<textarea
+						type="text"
+						name="description"
+						defaultValue={props.description}
+					></textarea>
+				</div>
+				<button type="submit">Update Quiz</button>
 			</form>
+
+			<div>
+				<h3>Questions</h3>
+				{props.questions.length > 0 &&
+					props.questions.map(question => (
+						<form type="POST" onSubmit={updateQuestion} key={question[0]._id}>
+							<input
+								type="hidden"
+								name="id"
+								defaultValue={question[0]._id}
+							></input>
+							<input
+								type="text"
+								name="question"
+								defaultValue={question[0].question}
+							></input>
+							<button type="submit">Update Question</button>
+						</form>
+					))}
+			</div>
 		</>
 	);
 }
