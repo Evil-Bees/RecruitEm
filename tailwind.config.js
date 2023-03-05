@@ -25,8 +25,8 @@ module.exports = {
 					"50%": { transform: "rotate(3deg)" },
 				},
 				carousel: {
-					"0%, 100%": { transform: "translateY(-100%)" },
-					"50%": { transform: "translateY(100vh)" },
+					"0%, 100%": { transform: "translateY(-150%)" },
+					"50%": { transform: "translateY(150%)" },
 				},
 				carouselTwo: {
 					"0%, 100%": { transform: "translateY(700px)" },
@@ -39,7 +39,7 @@ module.exports = {
 			},
 			animation: {
 				wiggle: "wiggle 1s ease-in-out infinite",
-				carousel: "carousel 6s ease-in-out infinite",
+				carousel: "carousel 8s ease-in-out infinite",
 				carouselTwo: "carouselTwo 5s ease-in-out infinite",
 				carouselThree: "carouselThree 5s ease-in-out infinite",
 			},
