@@ -4,15 +4,24 @@ import cvImage2 from "public/images/sample-cv2.png";
 import { useState } from "react";
 
 function Resume() {
-	const [isNavOpen, setIsNavOpen] = useState(false);
+	const [isHovered, setHover] = useState(false);
 
 	return (
-		<div className="relative">
-			<Image src={cvImage} alt="John Doe resume" />
+		<div className="relative bg-indigo-900 py-12">
+			<h1 className="text-center text-white text-6xl pt-10 pb-8">
+				Transparent hiring. Always.
+			</h1>
 			<Image
-				onMouseEnter={() => setIsNavOpen(true)}
-				onMouseLeave={() => setIsNavOpen(false)}
-				className={`absolute top-0 ${isNavOpen ? "opacity-0" : "opacity-1"}`}
+				className="lg:w-1/2 lg:mx-auto lg:my-12"
+				src={cvImage}
+				alt="John Doe resume"
+			/>
+			<Image
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				className={`absolute top-0 lg:w-1/2 top-[10rem] lg:left-[25%] ${
+					isHovered ? "opacity-0" : "opacity-1"
+				}`}
 				src={cvImage2}
 				alt="John Doe resume"
 			/>
